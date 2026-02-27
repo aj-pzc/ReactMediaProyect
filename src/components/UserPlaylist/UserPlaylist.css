@@ -1,0 +1,39 @@
+.UserPlayList {
+  background-color: #eeecec;
+  border-radius: 8px;
+  padding: 0 20px 20px 20px;
+  margin: 20px auto;
+  max-width: 110rem;
+  text-align: center;
+  height: auto;
+  max-height: 45rem;
+  overflow-y: scroll;
+}
+.UserPlayList__header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: #eeecec;
+  padding: 30px 0;
+}
+.UserPlayList__header h2 {
+  margin: 0;
+}
+.UserPlayList__each {
+  border-radius: 8px;
+  padding: 0;
+  margin: 5px;
+  width: auto;
+  height: 100px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+.UserPlayList__each-title, .UserPlayList__each-artist, .UserPlayList__each-album, .UserPlayList__each-duration {
+  width: 33%;
+  height: -webkit-fill-available;
+  height: -moz-available;
+  height: fill-available;
+  align-content: center;
+}/*# sourceMappingURL=UserPlaylist.css.map */
