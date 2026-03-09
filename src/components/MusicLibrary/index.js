@@ -1,9 +1,15 @@
 import React, { useState } from "react";
 import addFav from '../Media/fav.svg';
 import isFav from '../Media/fav-added.svg';
+import addPlaylist from '../Media/add.svg';
+import removePlaylist from '../Media/remove.svg';
+
+
 import { Link } from "react-router-dom";
-import { AllSongs, EachSong, SearchBar, SearchBox, SearchBtn, SearchContainer, SongCover, SongItem, SongsContainer, SongsHeaders } from "./styles";
-import { FavButton, FavIcon } from "../../Theme/GlobalStyles";
+import { AddButton, AddIcon, AddPlaylist, AllSongs, EachSong, SearchBar, SearchBox, SearchBtn, SearchContainer, SongCover, SongItem, SongsContainer, SongsHeaders } from "./styles";
+import { FavBox, FavButton, FavIcon } from "../../Theme/GlobalStyles";
+import { useDispatch, useSelector } from "react-redux";
+import { AddSong, RemoveSong } from "../../Redux/librayActions";
 
 const MusicLibrary = ({ songs, onAddFav, favorites, onSearch, isLoading, error }) => {
     const [searchTerm, setSearchTerm] = useState("");
@@ -24,11 +30,30 @@ const MusicLibrary = ({ songs, onAddFav, favorites, onSearch, isLoading, error }
         }
     };
 
+    const dispatch = useDispatch();
+
+    const playlist = useSelector(state => state);
+
+    const handleTogglePlaylist = (song, onList) =>{
+
+        if(onList){
+            dispatch(RemoveSong(song.trackID));
+        } else{
+            const songDetails ={
+                trackID: song.trackID,
+                track: song.track,
+                artist: song.artist,
+                album: song.album,
+                cover: song.cover
+            }
+            dispatch(AddSong(songDetails))        
+        };
+    };
+
     return (
         <AllSongs >
             <SearchContainer >
                 <h2>Explorador de Música</h2>
-
                 <SearchBox>
                     <SearchBar
                         type="text"
@@ -67,15 +92,20 @@ const MusicLibrary = ({ songs, onAddFav, favorites, onSearch, isLoading, error }
                         <SongItem>
                             <p><strong>Genre</strong></p>
                         </SongItem>
-                        <div>
+                        <FavBox>
                             <p><strong>Favorite</strong></p>
-                        </div>                        
+                        </FavBox>
+                        <AddPlaylist>
+                            <p><strong>Add</strong></p>
+                        </AddPlaylist>
+
                     </SongsHeaders>
                     
                     {displaySongs.length > 0 ? (
                         displaySongs.map((song) => {
                            const {trackID, artist, album, cover, genre, track, albumID, artistID} = song;
                             const isFavorite = favorites.some(fav => fav.trackID === trackID);
+                            const onList = playlist.some(added => added.trackID === trackID);
 
                             return (
                                 <EachSong key={trackID} className="allSongs__each-item">
@@ -96,18 +126,23 @@ const MusicLibrary = ({ songs, onAddFav, favorites, onSearch, isLoading, error }
 
                                         <Link to={`/artist/${artistID}`}>
                                             <p>{artist}</p>
-                                        </Link>
-                                        
+                                        </Link>                                        
                                     </SongItem>
                                     <SongItem>
                                         <p>{genre}</p>
-
                                     </SongItem>
-                                    <div className="allSongs__each-fav">
-                                        <FavButton onClick={() => onAddFav(song)} ><FavIcon src={isFavorite ? isFav:addFav} alt="favIcon" id="AddtoFav"/></FavButton>
-                                    </div>                        
+                                    <FavBox>
+                                        <FavButton onClick={() => onAddFav(song)} >
+                                            <FavIcon src={isFavorite ? isFav:addFav} alt="favIcon"/>
+                                        </FavButton>
+                                    </FavBox>
+                                    <AddPlaylist>
+                                        <AddButton onClick={() => handleTogglePlaylist(song, onList)}>
+                                            <AddIcon src={onList ? removePlaylist:addPlaylist} alt="AddPlaylist"/>
+                                        </AddButton>
+                                    </AddPlaylist>                        
                                 </EachSong>
-                );
+                            );
                         })
                     ) : (
                         <p className="error-message">No se encontraron resultados.</p>

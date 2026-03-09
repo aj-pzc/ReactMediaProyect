@@ -66,17 +66,13 @@ const ItemBox = styled.div`
 
 const Cover = styled.div`
     width: 10%;
-    display: flex;
-    justify-content: center;
-      img{
+    img{
         width: auto;
-        max-width: 80px;;
+        max-width: 100px;;
     }
 `;
 
-
 const  Playlist= styled.div`
-    width: 10%;
     align-content: center;
 `;
 
@@ -100,6 +96,8 @@ const AddIcon = styled.img`
     height: auto;
 `;
 
+
+
 export {
     UserList,
     ListHeader,
@@ -110,6 +108,5 @@ export {
     Cover,
     Playlist,
     AddButton,
-    AddIcon
-
+    AddIcon  
 }

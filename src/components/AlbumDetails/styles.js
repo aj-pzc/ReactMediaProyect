@@ -88,6 +88,30 @@ const TrackDuration = styled.div`
     color: #666;
 `;
 
+const AddPlaylist = styled.div`
+    align-content: center;
+`;
+
+const AddButton = styled.button`
+    padding:0;
+    margin:0;
+    border:none;
+    background-color: ${props => props.theme.colors.none};
+        &:hover{
+            cursor:pointer;
+            transform:translateY(-3px);
+        }
+        &:active{
+            transform: scale(0.7);
+        }
+    }
+`;
+
+const AddIcon = styled.img`
+    width: 30px;
+    height: auto;
+`;
+
 
 
 export{
@@ -99,6 +123,9 @@ export{
     TrackDuration,
     TrackTitles,
     Tracks,
-    TracksHeader
+    TracksHeader,
+    AddButton,
+    AddIcon,
+    AddPlaylist
 }
 

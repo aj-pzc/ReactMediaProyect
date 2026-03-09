@@ -2,30 +2,45 @@ import React from "react";
 import addFav from '../Media/fav.svg';
 import isFav from '../Media/fav-added.svg';
 import removeIcon from '../Media/remove.svg';
+import addIcon from '../Media/add.svg';
+
+
 import { FavButton, FavIcon,FavBox } from "../../Theme/GlobalStyles";
-import { ListHeader, UserList, ListContainer, ListItem, ListItemHeader, ItemBox, Cover, Playlist, RemoveButton, RemoveIcon, AddButton, AddIcon } from "./styles";
-import { useSelector, useDispatch } from "react-redux";
-import { RemoveSong } from "../../Redux/librayActions";
+import { ListHeader, UserList, ListContainer, ListItem, ListItemHeader, ItemBox, Cover, Playlist,  AddButton, AddIcon} from "./styles";
+import { useDispatch, useSelector } from "react-redux";
+import { AddSong, RemoveSong } from "../../Redux/librayActions";
 
-
-const UserPlaylist = ({ favorites, onAddFav}) => {
-
-    const songs = useSelector(state => state);
-    console.log("Playlist:", songs)
+const UserFavorites = ({ favorites, onAddFav}) => {
 
     const dispatch = useDispatch();
 
+    const playlist = useSelector(state => state);
 
+    const handleTogglePlaylist = (song, onList) =>{
+        if(onList){
+            dispatch(RemoveSong(song.trackID))
+
+        }else {
+            const songDetails ={
+                trackID: song.trackID,
+                track: song.track,
+                artist: song.artist,
+                album: song.album,
+                cover: song.cover
+            }
+            dispatch(AddSong (songDetails))
+        }   
+    }
 
     return (
         <UserList >
             <ListHeader>
-                <h2>Mi Playlist</h2>
+                <h2>FAVORITES</h2>
             </ListHeader>
 
             <ListContainer>
 
-                <ListItemHeader >
+                <ListItemHeader>
                         <Cover>
                             <p><strong>Album Cover</strong></p>
                         </Cover>
@@ -43,20 +58,22 @@ const UserPlaylist = ({ favorites, onAddFav}) => {
                         </FavBox>
                         <Playlist>
                             <p><strong>List</strong></p>    
-                        </Playlist>                      
+                        </Playlist>                          
                 </ListItemHeader>
                 
-                {songs.length === 0 ? <p>Tu Playlist Esta Vacia</p> : (
-                songs.map((song) => {
+                {favorites && favorites.length > 0 ? (
+                favorites.map((song) => {
                     
                     const {trackID, artist, album, cover, track} = song;
                     const isFavorite = favorites.some(fav => fav.trackID === song.trackID);
-                    
+                    const onList = playlist.some(added => added.trackID === trackID);
+
                     return(
+                        
                         <ListItem key={trackID} >
-                            <Cover>
+                            <div >
                                  <img src={cover} alt={album}></img>
-                            </Cover>
+                            </div>
                             <ItemBox >
                                 <p><strong>{track}</strong></p>
                             </ItemBox>
@@ -67,25 +84,23 @@ const UserPlaylist = ({ favorites, onAddFav}) => {
                                 <p>{album}</p>
                             </ItemBox>
                             <FavBox onClick={() => onAddFav(song)}>
-                                <FavButton>
-                                    <FavIcon 
-                                        src={isFavorite ? isFav:addFav} 
-                                        alt="favIcon"
-                                    />
-                                </FavButton>
+                                <FavButton><FavIcon src={isFavorite ? isFav:addFav} alt="favIcon" id="AddtoFav"/></FavButton>
                             </FavBox>
                             <Playlist>
-                                <AddButton onClick={() => dispatch(RemoveSong(trackID))}>
-                                    <AddIcon
-                                        src={removeIcon}
-                                        alt="Remove"
-                                     />
+                                <AddButton onClick={() => handleTogglePlaylist(song, onList)}>
+                                    <AddIcon 
+                                        src={onList ? removeIcon : addIcon} 
+                                        alt="AddIcon"
+                                    />
                                 </AddButton>
                             </Playlist>
                         </ListItem>
                     )
                 }) 
-            ) }                
+            ) : (
+                <p>No hay favoritos aún.</p>
+                )}
+                
             </ListContainer>
 
             
@@ -93,4 +108,4 @@ const UserPlaylist = ({ favorites, onAddFav}) => {
     );
 };
 
-export default UserPlaylist;
+export default UserFavorites;

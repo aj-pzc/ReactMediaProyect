@@ -34,9 +34,11 @@ const Header = ({appName}) => {
                     </Link>
                     <Link to="/playlist" onClick={closeMenu}>
                         <p>My Playlist</p>
-                     </Link>
-                </NavLinks>
-                
+                    </Link>
+                    <Link to="/Favorites" onClick={closeMenu}>
+                        <p>My Favorites</p>
+                    </Link>
+                </NavLinks>                
             </MenuNav>
         </HeaderBar>           
     );

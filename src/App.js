@@ -13,6 +13,7 @@ import { Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import GlobalStyle from './Theme/GlobalStyles';
 import Theme from './Theme/index.js';
+import UserFavorites from './components/UserFavories/index.js';
 
 function App() {
   const [userQuery, setQuery] = useState("Billie Eilish"); 
@@ -51,6 +52,14 @@ function App() {
           onAddFav={FavoritesToggle} 
           />
         }/>
+
+        <Route path='/Favorites' element={
+          <UserFavorites 
+          favorites={favorites} 
+          onAddFav={FavoritesToggle} 
+          />
+        }/>
+
       </Routes>
     </div>
     </ThemeProvider>

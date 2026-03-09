@@ -70,7 +70,7 @@ const SearchBar = styled.input`
 
 const SongsHeaders = styled.article`
     position: sticky;  
-    top:115px;
+    top:120px;
     z-index: 1000;
     background-color: ${props => props.theme.colors.primary};
     border-bottom: 2px solid #ccc;
@@ -81,7 +81,7 @@ const SongsHeaders = styled.article`
     padding: 0;
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
 `;
 
@@ -99,7 +99,7 @@ const EachSong = styled.div`
     height: 100px;
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
     &:hover {
         background-color: #e5e5e5;
@@ -109,6 +109,8 @@ const EachSong = styled.div`
 
 const SongCover = styled.div`
     width: 10%;
+    display: flex;
+    justify-content: center;
       img{
         width: auto;
         max-width: 80px;;
@@ -116,11 +118,34 @@ const SongCover = styled.div`
 `;
 
 const SongItem = styled.div`
-    width: 20%;
+    width: 15%;
     align-content: center;
 
 `;
+const AddPlaylist = styled.div`
+    width: 10%;
+    align-content: center;
+`;
 
+const AddButton = styled.button`
+    padding:0;
+    margin:0;
+    border:none;
+    background-color: ${props => props.theme.colors.none};
+        &:hover{
+            cursor:pointer;
+            transform:translateY(-3px);
+        }
+        &:active{
+            transform: scale(0.7);
+        }
+    }
+`;
+
+const AddIcon = styled.img`
+    width: 30px;
+    height: auto;
+`;
 
 export {
     AllSongs,
@@ -132,5 +157,8 @@ export {
     SongsContainer,
     EachSong,
     SongCover,
-    SongItem
+    SongItem,
+    AddPlaylist,
+    AddButton,
+    AddIcon
 }
